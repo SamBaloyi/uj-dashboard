@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UJ Advanced Diploma Success Dashboard - 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2d5a8f;
+            --accent: #d4af37;
+            --accent-dark: #b8941f;
+            --bg: #f4f6f9;
+            --bg-card: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #5a5a5a;
+            --border: #e0e0e0;
+            --success: #2d7a4f;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --shadow: rgba(26, 58, 92, 0.08);
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ─── SIDEBAR ─────────────────────────────────── */
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--primary);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar-logo {
+            padding: 1.5rem 1.25rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .sidebar-logo p {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.55);
+            margin-top: 0.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Semester Tabs */
+        .semester-tabs {
+            display: flex;
+            margin: 1rem 1rem 0.5rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            padding: 3px;
+            gap: 3px;
+        }
+
+        .sem-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.45rem 0.25rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: rgba(255,255,255,0.5);
+            transition: all 0.2s;
+            user-select: none;
+            letter-spacing: 0.3px;
+        }
+
+        .sem-tab.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .sem-tab.disabled {
+            cursor: not-allowed;
+            opacity: 0.35;
+        }
+
+        .sem-tab:not(.disabled):not(.active):hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* Nav Groups */
+        .nav-section {
+            padding: 0 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .nav-group-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            padding: 0.6rem 0.5rem 0.3rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.18s;
+            margin: 1px 0;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .nav-item .nav-icon {
+            font-size: 1rem;
+            width: 1.2rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+            margin: 0.6rem 0.75rem;
+        }
+
+        .nav-item.coming-soon {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .nav-coming-badge {
+            margin-left: auto;
+            font-size: 0.6rem;
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6);
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* ─── MAIN LAYOUT ─────────────────────────────── */
+        .page-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topbar::after {
+            content: '';
+            position: absolute;
+            top: -60%; right: -5%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .topbar h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar p {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-top: 0.25rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            padding: 1.5rem 2.5rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .stat-pill-icon {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            background: rgba(26,58,92,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .stat-pill-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .stat-pill-value {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem 2.5rem;
+        }
+
+        /* ─── SECTIONS ────────────────────────────────── */
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ─── CARDS ───────────────────────────────────── */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover { box-shadow: 0 4px 16px var(--shadow); }
+
+        .card-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-content { color: var(--text); line-height: 1.7; }
+        .card-content p { margin-bottom: 0.5rem; }
+
+        /* ─── MODULE GRID ─────────────────────────────── */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.22s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.22s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .module-card:hover::before { transform: scaleX(1); }
+
+        .module-code {
+            font-size: 0.75rem;
+            color: var(--accent-dark);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .module-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+
+        .module-credits {
+            display: inline-block;
+            background: rgba(26,58,92,0.08);
+            color: var(--primary);
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-lecturer {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .module-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            line-height: 1.5;
+        }
+
+        /* ─── ASSESSMENT ITEMS ────────────────────────── */
+        .assessment-item {
+            background: white;
+            padding: 1rem 1.25rem;
+            margin: 0.6rem 0;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 110px 1fr auto auto;
+            gap: 1rem;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .assessment-item:hover {
+            box-shadow: 0 4px 12px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .assessment-date {
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .assessment-name { font-weight: 600; color: var(--primary); font-size: 0.95rem; }
+        .assessment-module { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+        .assessment-weight {
+            background: rgba(212,175,55,0.15);
+            color: var(--accent-dark);
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming { background: rgba(245,158,11,0.15); color: #b45309; }
+        .status-completed { background: rgba(45,122,79,0.15); color: var(--success); }
+        .status-conditional { background: rgba(220,38,38,0.1); color: var(--danger); }
+
+        /* ─── TIMELINE ────────────────────────────────── */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1.25rem 1.25rem 1.25rem 1rem;
+            margin: 0.75rem 0;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .timeline-item:hover {
+            box-shadow: 0 4px 14px var(--shadow);
+            transform: translateX(3px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.55rem;
+            top: 1.35rem;
+            width: 14px; height: 14px;
+            background: var(--accent);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.2);
+        }
+
+        .timeline-title { font-weight: 700; color: var(--primary); font-size: 1rem; margin-bottom: 0.35rem; }
+        .timeline-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+        /* ─── TIP BOX ─────────────────────────────────── */
+        .tip-box {
+            background: rgba(212,175,55,0.07);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+        }
+
+        .tip-box strong { color: var(--accent-dark); }
+
+        /* ─── CONTACT GRID ────────────────────────────── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin: 1.25rem 0;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-name { font-weight: 700; color: var(--primary); font-size: 1rem; margin-bottom: 0.6rem; }
+        .contact-detail { font-size: 0.85rem; color: var(--text-secondary); margin: 0.25rem 0; }
+
+        /* ─── TABLES ──────────────────────────────────── */
+        table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; }
+        th { background: var(--primary); color: white; padding: 0.85rem 1rem; text-align: left; font-weight: 600; }
+        td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); }
+        tr:hover { background: rgba(26,58,92,0.02); }
+        th:first-child { border-radius: 0; }
+
+        /* ─── SEMESTER 2 PLACEHOLDER ──────────────────── */
+        .s2-placeholder {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .s2-placeholder .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .s2-placeholder h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .s2-placeholder p { font-size: 1rem; max-width: 480px; margin: 0 auto; }
+
+        /* ─── FOOTER ──────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 1.5rem 2.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-left: 0;
+        }
+
+        /* ─── RESPONSIVE ──────────────────────────────── */
+
+        /* Font Awesome icon sizing & alignment */
+        .fa-solid, .fa-regular, .fa-brands {
+            font-size: 0.95em;
+            vertical-align: middle;
+        }
+        .nav-icon .fa-solid { font-size: 0.9rem; }
+        .stat-pill-icon .fa-solid { font-size: 1.3rem; color: var(--primary); }
+        .contact-detail .fa-solid { color: var(--accent-dark); width: 16px; text-align: center; }
+        .tip-box .fa-solid { color: var(--accent-dark); }
+        .card-title .fa-solid { color: var(--primary); font-size: 1rem; }
+        .section-title .fa-solid { font-size: 1.8rem; }
+        li .fa-solid { color: var(--accent-dark); margin-right: 0.15rem; }
+
+        /* ─── BURGER / OVERLAY ───────────────────────── */
+        .burger-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 200;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+        .burger-btn:hover { background: var(--primary-light); }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 99;
+            backdrop-filter: blur(2px);
+        }
+        .sidebar-overlay.visible { display: block; }
+
+        @media (max-width: 900px) {
+            :root { --sidebar-width: 260px; }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 150;
+            }
+            .sidebar.open { transform: translateX(0); }
+
+            .burger-btn { display: flex; }
+
+            .page-wrapper { margin-left: 0; }
+            .topbar { padding-top: 4rem; }
+            .topbar h1 { font-size: 1.8rem; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .main-content { padding: 1.25rem; }
+        }
+
+        @media (max-width: 600px) {
+            .stats-bar { grid-template-columns: 1fr 1fr; padding: 1rem; gap: 0.75rem; }
+            .assessment-item { grid-template-columns: 1fr; }
+            .module-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Burger button (mobile only) -->
+<button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()" aria-label="Open menu">
+    <i class="fa-solid fa-bars" id="burgerIcon"></i>
+</button>
+
+<!-- Overlay (mobile only) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <h2>UJ Business Management</h2>
+        <p>Advanced Diploma · 2026</p>
+    </div>
+
+    <!-- Semester Tabs -->
+    <div class="semester-tabs">
+        <div class="sem-tab active" id="tab-s1" onclick="switchSemester(1)">Semester 1</div>
+        <div class="sem-tab disabled" id="tab-s2" title="Semester 2 content coming soon">Semester 2</div>
+    </div>
+
+    <!-- ── Semester 1 Nav ── -->
+    <nav class="nav-section" id="nav-s1">
+        <div class="nav-group-label">General</div>
+        <div class="nav-item active" onclick="showSection('overview')" data-section="overview">
+            <span class="nav-icon"><i class="fa-solid fa-chart-bar"></i></span> Dashboard
+        </div>
+
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Semester 1</div>
+        <div class="nav-item" onclick="showSection('s1-modules')" data-section="s1-modules">
+            <span class="nav-icon"><i class="fa-solid fa-book-open"></i></span> All Modules
+        </div>
+        <div class="nav-item" onclick="showSection('s1-schedule')" data-section="s1-schedule">
+            <span class="nav-icon"><i class="fa-solid fa-calendar-days"></i></span> Semester Schedule
+        </div>
+        <div class="nav-item" onclick="showSection('s1-assessments')" data-section="s1-assessments">
+            <span class="nav-icon"><i class="fa-solid fa-file-pen"></i></span> All Assessments
+        </div>
+
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">S1 Modules</div>
+        <div class="nav-item" onclick="showSection('coe')" data-section="coe">
+            <span class="nav-icon"><i class="fa-solid fa-rocket"></i></span> Corporate Entrepreneurship
+        </div>
+        <div class="nav-item" onclick="showSection('fim')" data-section="fim">
+            <span class="nav-icon"><i class="fa-solid fa-coins"></i></span> Financial Management
+        </div>
+        <div class="nav-item" onclick="showSection('gem')" data-section="gem">
+            <span class="nav-icon"><i class="fa-solid fa-building"></i></span> General Management
+        </div>
+        <div class="nav-item" onclick="showSection('hre')" data-section="hre">
+            <span class="nav-icon"><i class="fa-solid fa-users"></i></span> Human Resource Mgmt
+        </div>
+        <div class="nav-item" onclick="showSection('rmd')" data-section="rmd">
+            <span class="nav-icon"><i class="fa-solid fa-flask"></i></span> Research Methodology
+        </div>
+
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">Resources</div>
+        <div class="nav-item" onclick="showSection('contacts')" data-section="contacts">
+            <span class="nav-icon"><i class="fa-solid fa-phone"></i></span> Contacts &amp; Support
+        </div>
+        <div class="nav-item" onclick="showSection('strategy')" data-section="strategy">
+            <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span> Success Strategies
+        </div>
+    </nav>
+
+    <!-- ── Semester 2 Nav (hidden by default) ── -->
+    <nav class="nav-section" id="nav-s2" style="display:none;">
+        <div class="nav-group-label">Semester 2</div>
+        <div class="nav-item" onclick="showSection('s2-overview')" data-section="s2-overview">
+            <span class="nav-icon"><i class="fa-solid fa-chart-bar"></i></span> S2 Overview
+        </div>
+        <div class="nav-divider"></div>
+        <div class="nav-group-label">S2 Modules</div>
+        <div class="nav-item coming-soon">
+            <span class="nav-icon"><i class="fa-solid fa-box-open"></i></span> Modules
+            <span class="nav-coming-badge">TBA</span>
+        </div>
+    </nav>
+</aside>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="page-wrapper">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <h1>Advanced Diploma in Business Management</h1>
+        <p>University of Johannesburg · Success Dashboard 2026</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-pill">
+            <div class="stat-pill-icon"><i class="fa-solid fa-calendar-days"></i></div>
+            <div>
+                <div class="stat-pill-label">Current Semester</div>
+                <div class="stat-pill-value">1</div>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <div class="stat-pill-icon"><i class="fa-solid fa-book-open"></i></div>
+            <div>
+                <div class="stat-pill-label">S1 Modules</div>
+                <div class="stat-pill-value">5</div>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <div class="stat-pill-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div>
+                <div class="stat-pill-label">NQF Credits</div>
+                <div class="stat-pill-value">64</div>
+            </div>
+        </div>
+        <div class="stat-pill">
+            <div class="stat-pill-icon"><i class="fa-solid fa-trophy"></i></div>
+            <div>
+                <div class="stat-pill-label">Target Average</div>
+                <div class="stat-pill-value">65%+</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <!-- ══ DASHBOARD OVERVIEW ══ -->
+        <section id="overview" class="section active">
+            <h2 class="section-title">Welcome to Your Dashboard</h2>
+            <p class="section-subtitle">First Semester 2026 · Advanced Diploma in Business Management</p>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-graduation-cap"></i> Your Semester at a Glance:</strong> You're registered for 5 modules worth 64 NQF credits. Use the sidebar to navigate between modules, schedules, and your assessment calendar. Semester 2 modules will be added here when available.
+            </div>
+
+            <h3 style="font-family:'Crimson Pro',serif; font-size:1.6rem; color:var(--primary); margin: 2rem 0 1rem;"><i class="fa-solid fa-book-open"></i> Semester 1 Modules</h3>
+
+            <div class="module-grid">
+                <div class="module-card" onclick="showSection('coe')">
+                    <div class="module-code">COE7XA1</div>
+                    <div class="module-name">Corporate Entrepreneurship</div>
+                    <span class="module-credits">16 Credits</span>
+                    <div class="module-lecturer"><i class="fa-solid fa-chalkboard-user"></i> Dr LJ Janse van Rensburg</div>
+                    <div class="module-desc">Creation and management of entrepreneurial initiatives in organisations.</div>
+                </div>
+                <div class="module-card" onclick="showSection('fim')">
+                    <div class="module-code">FIM7XA1</div>
+                    <div class="module-name">Financial Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="module-lecturer"><i class="fa-solid fa-chalkboard-user"></i> Mr KM Morake</div>
+                    <div class="module-desc">Financial decision-making and capital investment analysis.</div>
+                </div>
+                <div class="module-card" onclick="showSection('gem')">
+                    <div class="module-code">GEM7XA1</div>
+                    <div class="module-name">General Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="module-lecturer"><i class="fa-solid fa-chalkboard-user"></i> Mr NJ Muofhe</div>
+                    <div class="module-desc">Planning, organising, leading and control in internal and external environments.</div>
+                </div>
+                <div class="module-card" onclick="showSection('hre')">
+                    <div class="module-code">HRE7XA1</div>
+                    <div class="module-name">Human Resource Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="module-lecturer"><i class="fa-solid fa-chalkboard-user"></i> Dr Kgomotso Mopalami</div>
+                    <div class="module-desc">Strategic HRM practices and people performance management.</div>
+                </div>
+                <div class="module-card" onclick="showSection('rmd')">
+                    <div class="module-code">RMD01A1</div>
+                    <div class="module-name">Research Methodology</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="module-lecturer"><i class="fa-solid fa-chalkboard-user"></i> Prof C Mara &amp; Mr S Mabuza</div>
+                    <div class="module-desc">Research proposal development, data collection methods and academic writing.</div>
+                </div>
+            </div>
+
+            <h3 style="font-family:'Crimson Pro',serif; font-size:1.6rem; color:var(--primary); margin: 2rem 0 1rem;"><i class="fa-solid fa-calendar-days"></i> Upcoming Key Dates</h3>
+
+            <div class="assessment-item">
+                <div class="assessment-date">5 Mar</div>
+                <div><div class="assessment-name">RMD Assessment 1 Due</div><div class="assessment-module">Research Methodology – Video Defense</div></div>
+                <div class="assessment-weight">10%</div>
+                <div class="status-badge status-upcoming">Upcoming</div>
+            </div>
+            <div class="assessment-item">
+                <div class="assessment-date">13 Mar</div>
+                <div><div class="assessment-name">COE Assessment 1a &amp; FIM Test 1</div><div class="assessment-module">Multiple modules</div></div>
+                <div class="assessment-weight">20% / 15%</div>
+                <div class="status-badge status-upcoming">Upcoming</div>
+            </div>
+            <div class="assessment-item">
+                <div class="assessment-date">24 Mar</div>
+                <div><div class="assessment-name">GEM Test 1 (Chapters 1, 3, 6 + Article)</div><div class="assessment-module">General Management · B Red 20 @ 17:30</div></div>
+                <div class="assessment-weight">40% sem.</div>
+                <div class="status-badge status-upcoming">Upcoming</div>
+            </div>
+            <div class="assessment-item">
+                <div class="assessment-date">28 Mar</div>
+                <div><div class="assessment-name">Mid-Semester Recess Begins</div><div class="assessment-module">Returns 7 April 2026</div></div>
+                <div class="assessment-weight">–</div>
+                <div class="status-badge status-completed">Break</div>
+            </div>
+        </section>
+
+        <!-- ══ S1 ALL MODULES ══ -->
+        <section id="s1-modules" class="section">
+            <h2 class="section-title">Semester 1 Modules</h2>
+            <p class="section-subtitle">All five modules for First Semester 2026 — click any card for full details</p>
+            <div class="module-grid">
+                <div class="module-card" onclick="showSection('coe')">
+                    <div class="module-code">COE7XA1</div>
+                    <div class="module-name">Corporate Entrepreneurship</div>
+                    <span class="module-credits">16 Credits</span>
+                    <div class="card-content" style="margin-top:0.75rem; font-size:0.88rem;">
+                        <p><strong>Lecturer:</strong> Dr LJ Janse van Rensburg</p>
+                        <p><strong>Email:</strong> ljjansevanrensburg@uj.ac.za</p>
+                        <p style="margin-top:0.5rem;"><strong>Assessments:</strong> 1a/1b: 20% | 2a: 10% | 2b: 20% | Final: 50%</p>
+                    </div>
+                </div>
+                <div class="module-card" onclick="showSection('fim')">
+                    <div class="module-code">FIM7XA1</div>
+                    <div class="module-name">Financial Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="card-content" style="margin-top:0.75rem; font-size:0.88rem;">
+                        <p><strong>Lecturer:</strong> Mr KM Morake</p>
+                        <p><strong>Email:</strong> kmorake@uj.ac.za</p>
+                        <p style="margin-top:0.5rem;"><strong>Assessments:</strong> 3 Quizzes (5% ea) | 3 Tests (15% ea) | Final: 40%</p>
+                    </div>
+                </div>
+                <div class="module-card" onclick="showSection('gem')">
+                    <div class="module-code">GEM7XA1</div>
+                    <div class="module-name">General Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="card-content" style="margin-top:0.75rem; font-size:0.88rem;">
+                        <p><strong>Lecturer:</strong> Mr NJ Muofhe</p>
+                        <p><strong>Email:</strong> jmuofhe@uj.ac.za</p>
+                        <p style="margin-top:0.5rem;"><strong>Assessments:</strong> Tests: 40% | Class: 10% | Exam: 50%</p>
+                    </div>
+                </div>
+                <div class="module-card" onclick="showSection('hre')">
+                    <div class="module-code">HRE7XA1</div>
+                    <div class="module-name">Human Resource Management</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="card-content" style="margin-top:0.75rem; font-size:0.88rem;">
+                        <p><strong>Lecturer:</strong> Dr Kgomotso Mopalami</p>
+                        <p><strong>Email:</strong> kgomotsom@uj.ac.za</p>
+                        <p style="margin-top:0.5rem;"><strong>Assessments:</strong> Test 1: 50% | Assignment: 45% | Activities: 5%</p>
+                    </div>
+                </div>
+                <div class="module-card" onclick="showSection('rmd')">
+                    <div class="module-code">RMD01A1</div>
+                    <div class="module-name">Research Methodology</div>
+                    <span class="module-credits">12 Credits</span>
+                    <div class="card-content" style="margin-top:0.75rem; font-size:0.88rem;">
+                        <p><strong>Lecturers:</strong> Prof C Mara &amp; Mr S Mabuza</p>
+                        <p><strong>Email:</strong> cmara@uj.ac.za / semangam@uj.ac.za</p>
+                        <p style="margin-top:0.5rem;"><strong>CE Module – No Exam.</strong> Group 5% | Quiz 10% | A1–A4: 10/15/20/40%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-lightbulb"></i> Pro Tip:</strong> Click any module card to see the full schedule, assessment details, learning units, and study tips for that module.
+            </div>
+        </section>
+
+        <!-- ══ S1 SCHEDULE ══ -->
+        <section id="s1-schedule" class="section">
+            <h2 class="section-title">Semester 1 Schedule</h2>
+            <p class="section-subtitle">Key dates and phases across all Semester 1 modules</p>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-days"></i> Important Dates</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Event</th><th>Date</th><th>Notes</th></tr>
+                        <tr><td>Semester Starts</td><td>9 February 2026</td><td>First day of classes</td></tr>
+                        <tr><td>RMD Assessment 1</td><td>5 March 2026</td><td>Video Defense (Research Methodology)</td></tr>
+                        <tr><td>GEM Test 1</td><td>24 March 2026</td><td>B Red 20 @ 17:30 – Chapters 1, 3, 6 + Article</td></tr>
+                        <tr><td>Mid-Semester Break</td><td>28 Mar – 5 Apr 2026</td><td>Academic recess</td></tr>
+                        <tr><td>RMD Assessment 2</td><td>23 April 2026</td><td>Video Defense – Sampling, Ethics, Data</td></tr>
+                        <tr><td>GEM Test 2</td><td>29 April 2026</td><td>B Red 20 @ 17:30 – Chapters 7, 9, 11, 12</td></tr>
+                        <tr><td>Freedom Day</td><td>27 April 2026</td><td>Public Holiday</td></tr>
+                        <tr><td>HRE Assignment Due</td><td>7 May 2026</td><td>On-campus submission</td></tr>
+                        <tr><td>RMD Assessment 3</td><td>7 May 2026</td><td>Risk-based Video Defense</td></tr>
+                        <tr><td>GEM Special Assessment</td><td>12 May 2026</td><td>F Green 4 @ 15:30 (replaces missed Test 1 or 2)</td></tr>
+                        <tr><td>COE Final Assessment</td><td>22 May 2026</td><td>Final Case Assessment due @ 23:59</td></tr>
+                        <tr><td>RMD Assessment 4</td><td>21 May 2026</td><td>Final Proposal Video Defense (Compulsory)</td></tr>
+                        <tr><td>FIM Final Assessment</td><td>29 May 2026</td><td>All Learning Units</td></tr>
+                        <tr><td>Study Period</td><td>23–27 May 2026</td><td>Exam preparation</td></tr>
+                        <tr><td>Exam Period</td><td>28 May – 19 June 2026</td><td>Final examinations (GEM, FIM, HRE)</td></tr>
+                        <tr><td>Winter Recess</td><td>20 June – 5 July 2026</td><td>Student holiday</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-line"></i> Semester Phases</div>
+                <div class="card-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-title">Weeks 1–4: Foundation Phase (9 Feb – 8 Mar)</div>
+                            <div class="timeline-content">Introduction to all modules. Establish study routines. Begin pre-reading. Focus on understanding core concepts in each module. RMD Assessment 1 due 5 March.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Weeks 5–7: First Assessment Wave (9 Mar – 27 Mar)</div>
+                            <div class="timeline-content">Multiple assessments across all modules including COE 1a/1b, FIM Test 1 &amp; Quiz 2, and GEM Test 1. Manage your time carefully.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Mid-Semester Break (28 Mar – 5 Apr)</div>
+                            <div class="timeline-content">Use this time to catch up on readings, review feedback from first assessments, and prepare for the second half of semester.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Weeks 8–11: Second Assessment Wave (7 Apr – 8 May)</div>
+                            <div class="timeline-content">FIM Tests 2 &amp; 3, COE Assessments 2a &amp; 2b, HRE Assignment, GEM Test 2, RMD Assessments 2 &amp; 3. Integrate concepts across modules.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Weeks 12–14: Final Push (9 May – 29 May)</div>
+                            <div class="timeline-content">COE Final Case, RMD Final Video (compulsory), FIM Final Assessment. Focus on synthesis and application of all semester content.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-title">Exam Period (28 May – 19 June)</div>
+                            <div class="timeline-content">Final examinations for GEM, FIM and HRE. Use the study period effectively. Apply exam strategies from your success guide.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ S1 ASSESSMENTS ══ -->
+        <section id="s1-assessments" class="section">
+            <h2 class="section-title">Semester 1 Assessment Calendar</h2>
+            <p class="section-subtitle">All assessments across all modules in chronological order</p>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> Important:</strong> Add all these dates to your personal calendar now. Set reminders 1 week and 24 hours before each deadline. No late submissions are accepted in most modules.
+            </div>
+
+            <h3 style="color:var(--primary); margin: 1.75rem 0 0.75rem; font-family:'Crimson Pro',serif; font-size:1.4rem;">February – March 2026</h3>
+            <div class="assessment-item"><div class="assessment-date">27 Feb</div><div><div class="assessment-name">FIM Quiz 1</div><div class="assessment-module">Financial Management · LU1, LU2, LU3</div></div><div class="assessment-weight">5%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">5 Mar</div><div><div class="assessment-name">RMD Assessment 1 – Video Defense</div><div class="assessment-module">Research Methodology · Research topic, methodology, literature</div></div><div class="assessment-weight">10%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">12 Mar</div><div><div class="assessment-name">HRE Test 1</div><div class="assessment-module">Human Resource Management · Semester Test</div></div><div class="assessment-weight">50%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">13 Mar</div><div><div class="assessment-name">COE Assessment 1a (Online Activity)</div><div class="assessment-module">Corporate Entrepreneurship · Moodle · Due 23:59</div></div><div class="assessment-weight">20%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">13 Mar</div><div><div class="assessment-name">FIM Test 1</div><div class="assessment-module">Financial Management · LU1, LU2, LU3</div></div><div class="assessment-weight">15%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">17 Mar</div><div><div class="assessment-name">GEM Class Test</div><div class="assessment-module">General Management · LU1, LU2</div></div><div class="assessment-weight">10%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">20 Mar</div><div><div class="assessment-name">COE Assessment 1b (Optional Resubmission)</div><div class="assessment-module">Corporate Entrepreneurship · Best mark of 1a/1b taken</div></div><div class="assessment-weight">20%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">24 Mar</div><div><div class="assessment-name">GEM Test 1</div><div class="assessment-module">General Management · Chapters 1, 3, 6 + Article · B Red 20 @ 17:30</div></div><div class="assessment-weight">40% sem.</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">28 Mar</div><div><div class="assessment-name">FIM Quiz 2</div><div class="assessment-module">Financial Management · LU4, LU5, LU6</div></div><div class="assessment-weight">5%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+
+            <h3 style="color:var(--primary); margin: 1.75rem 0 0.75rem; font-family:'Crimson Pro',serif; font-size:1.4rem;">April 2026</h3>
+            <div class="assessment-item"><div class="assessment-date">10 Apr</div><div><div class="assessment-name">FIM Test 2</div><div class="assessment-module">Financial Management · LU4, LU5, LU6</div></div><div class="assessment-weight">15%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">23 Apr</div><div><div class="assessment-name">RMD Assessment 2 – Video Defense</div><div class="assessment-module">Research Methodology · Sampling, data collection, ethics</div></div><div class="assessment-weight">15%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">24 Apr</div><div><div class="assessment-name">COE Assessment 2a (Online Activity)</div><div class="assessment-module">Corporate Entrepreneurship · Moodle · Due 23:59</div></div><div class="assessment-weight">10%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">25 Apr</div><div><div class="assessment-name">FIM Quiz 3</div><div class="assessment-module">Financial Management · LU7, LU8, LU9</div></div><div class="assessment-weight">5%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">29 Apr</div><div><div class="assessment-name">GEM Test 2</div><div class="assessment-module">General Management · Chapters 7, 9, 11, 12 · B Red 20 @ 17:30</div></div><div class="assessment-weight">40% sem.</div><div class="status-badge status-upcoming">Upcoming</div></div>
+
+            <h3 style="color:var(--primary); margin: 1.75rem 0 0.75rem; font-family:'Crimson Pro',serif; font-size:1.4rem;">May 2026</h3>
+            <div class="assessment-item"><div class="assessment-date">6 May</div><div><div class="assessment-name">COE Assessment 2b (Compulsory)</div><div class="assessment-module">Corporate Entrepreneurship · Moodle · Due 23:59</div></div><div class="assessment-weight">20%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">7 May</div><div><div class="assessment-name">HRE Assignment</div><div class="assessment-module">Human Resource Management · On-campus submission</div></div><div class="assessment-weight">45%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">7 May</div><div><div class="assessment-name">RMD Assessment 3 – Video Defense</div><div class="assessment-module">Research Methodology · Risk-based (not all students required)</div></div><div class="assessment-weight">20%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">8 May</div><div><div class="assessment-name">FIM Test 3</div><div class="assessment-module">Financial Management · LU7, LU8, LU9</div></div><div class="assessment-weight">15%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">12 May</div><div><div class="assessment-name">GEM Special Assessment</div><div class="assessment-module">General Management · Replaces missed Test 1 or 2 · F Green 4 @ 15:30</div></div><div class="assessment-weight">N/A</div><div class="status-badge status-conditional">Conditional</div></div>
+            <div class="assessment-item"><div class="assessment-date">14 May</div><div><div class="assessment-name">HRE Sick Test</div><div class="assessment-module">Human Resource Management · Valid medical certificate required</div></div><div class="assessment-weight">TBC</div><div class="status-badge status-conditional">Conditional</div></div>
+            <div class="assessment-item"><div class="assessment-date">21 May</div><div><div class="assessment-name">RMD Assessment 4 – Final Video Defense</div><div class="assessment-module">Research Methodology · Complete proposal presentation (Compulsory)</div></div><div class="assessment-weight">40%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">22 May</div><div><div class="assessment-name">COE Assessment 3 – Final Case Assessment</div><div class="assessment-module">Corporate Entrepreneurship · Moodle · Due 23:59</div></div><div class="assessment-weight">50%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+            <div class="assessment-item"><div class="assessment-date">22 May</div><div><div class="assessment-name">FIM Replacement Assessments</div><div class="assessment-module">Financial Management · All Units</div></div><div class="assessment-weight">Varies</div><div class="status-badge status-conditional">Conditional</div></div>
+            <div class="assessment-item"><div class="assessment-date">29 May</div><div><div class="assessment-name">FIM Final Assessment</div><div class="assessment-module">Financial Management · All Learning Units</div></div><div class="assessment-weight">40%</div><div class="status-badge status-upcoming">Upcoming</div></div>
+
+            <h3 style="color:var(--primary); margin: 1.75rem 0 0.75rem; font-family:'Crimson Pro',serif; font-size:1.4rem;">June 2026</h3>
+            <div class="assessment-item"><div class="assessment-date">10 Jun</div><div><div class="assessment-name">COE Reassessment</div><div class="assessment-module">Corporate Entrepreneurship · Special cases only · By invite</div></div><div class="assessment-weight">N/A</div><div class="status-badge status-conditional">Conditional</div></div>
+        </section>
+
+        <!-- ══ COE ══ -->
+        <section id="coe" class="section">
+            <h2 class="section-title">Corporate Entrepreneurship</h2>
+            <p class="section-subtitle">COE7XA1 · 16 Credits · NQF Level 7 · Semester 1</p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Dr LJ Janse van Rensburg</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> ljjansevanrensburg@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 4341</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> D Ring 515, APK</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> Wed 17:15–17:45 (F2F weeks)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Module Overview</div>
+                <div class="card-content">
+                    <p><strong>Purpose:</strong> Creation and management of entrepreneurial initiatives in organisations. Develop intellectual competencies and practical skills in the acquisition, analysis, interpretation and application of corporate entrepreneurship theories, models and approaches.</p>
+                    <p><strong>Teaching Approach:</strong> Authentic learning – real world learning with tangible products. Very practical, pitched for students with future entrepreneurial aspirations.</p>
+                    <p><strong>Textbook:</strong> Burns, P. 2025. <em>Corporate Entrepreneurship and Innovation</em>, 5th ed. Bloomsbury Academic. ISBN 978-1-3503-8407-1</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Assessment Structure</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Assessment</th><th>Weight</th><th>Due Date</th><th>Type</th></tr>
+                        <tr><td>Assessment 1a</td><td>20%</td><td>13 March @ 23:59</td><td>Online Activity (Moodle)</td></tr>
+                        <tr><td>Assessment 1b</td><td>20%*</td><td>20 March @ 23:59</td><td>Optional Resubmission (best mark taken)</td></tr>
+                        <tr><td>Assessment 2a</td><td>10%</td><td>24 April @ 23:59</td><td>Online Activity (Compulsory)</td></tr>
+                        <tr><td>Assessment 2b</td><td>20%</td><td>6 May @ 23:59</td><td>Online Activity (Compulsory)</td></tr>
+                        <tr><td>Assessment 3</td><td>50%</td><td>22 May @ 23:59</td><td>Final Case Assessment</td></tr>
+                        <tr><td>Reassessment</td><td>N/A</td><td>10 June @ 23:59</td><td>Special Cases Only (By invite)</td></tr>
+                    </table>
+                    <p style="font-size:0.88rem; color:var(--text-secondary);">*Assessment 1a is compulsory. 1b is optional — best mark between 1a and 1b will be used.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Topics Covered</div>
+                <div class="card-content">
+                    <div class="timeline">
+                        <div class="timeline-item"><div class="timeline-title">Weeks 1–2: Foundation</div><div class="timeline-content">Ch 1: Entrepreneurship – Thriving in chaos | Ch 2–3: Corporate Entrepreneurship &amp; Innovation</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 3–5: Organisational Environment</div><div class="timeline-content">Ch 4: Culture | Ch 5: Structure | Ch 6–7: Leading &amp; Managing the entrepreneurial organisation</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 6–10: Innovation &amp; Development</div><div class="timeline-content">Ch 8: Managing risk | Ch 9–10: Creativity &amp; ideas | Ch 11: Concept development | Ch 12: Strategy &amp; business model development</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 11–12: Implementation</div><div class="timeline-content">Ch 13: Venture teams &amp; intrapreneurs | Ch 14: Product/market development | Ch 15: Shareholder value &amp; CE audit</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-bullseye"></i> Success Tips for COE:</strong>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li>All submissions via Moodle — NO email submissions accepted</li>
+                    <li>Technical issues with submissions are your responsibility</li>
+                    <li>Authentic learning module — you'll create real, tangible products</li>
+                    <li>Attend ALL sessions — practical examples go beyond the textbook</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══ FIM ══ -->
+        <section id="fim" class="section">
+            <h2 class="section-title">Financial Management</h2>
+            <p class="section-subtitle">FIM7XA1 · 12 Credits · NQF Level 7 · Semester 1</p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Mr KM Morake</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> kmorake@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 5123</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> GNA 262, SWC</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> By appointment</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Module Overview</div>
+                <div class="card-content">
+                    <p><strong>Purpose:</strong> Equip non-financial specialists with basic knowledge in cost accounting. Understand how cost accounting contributes as an integrated discipline to different dynamics within a business environment.</p>
+                    <p><strong>Textbook:</strong> Els, G., van Gaalen, R. &amp; Strydom, NT (2025). <em>Fundamentals of Finance</em>, 8th ed. LexisNexis.</p>
+                    <p><strong>Required Calculator:</strong> Sharp EL738 financial calculator</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Assessment Structure</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Assessment</th><th>Weight</th><th>Date</th><th>Scope</th></tr>
+                        <tr><td>Quiz 1</td><td>5%</td><td>27 Feb 2026</td><td>LU1, LU2, LU3</td></tr>
+                        <tr><td>Test 1</td><td>15%</td><td>13 March 2026</td><td>LU1, LU2, LU3</td></tr>
+                        <tr><td>Quiz 2</td><td>5%</td><td>28 Mar 2026</td><td>LU4, LU5, LU6</td></tr>
+                        <tr><td>Test 2</td><td>15%</td><td>10 April 2026</td><td>LU4, LU5, LU6</td></tr>
+                        <tr><td>Quiz 3</td><td>5%</td><td>25 April 2026</td><td>LU7, LU8, LU9</td></tr>
+                        <tr><td>Test 3</td><td>15%</td><td>8 May 2026</td><td>LU7, LU8, LU9</td></tr>
+                        <tr><td>Replacement Tests</td><td>Varies</td><td>22 May 2026</td><td>All Units</td></tr>
+                        <tr><td>Final Assessment</td><td>40%</td><td>29 May 2026</td><td>All Units</td></tr>
+                    </table>
+                    <p style="font-size:0.88rem; color:var(--text-secondary);">Semester mark = 60% | Final Assessment = 40%</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Learning Units</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Unit</th><th>Topic</th><th>Chapter</th></tr>
+                        <tr><td>LU1</td><td>Introduction to Corporate Finance</td><td>Ch 1–2</td></tr>
+                        <tr><td>LU2</td><td>Introduction to Valuation – Time Value of Money</td><td>Ch 5</td></tr>
+                        <tr><td>LU3</td><td>Discounted Cash Flow Valuation</td><td>Ch 5</td></tr>
+                        <tr><td>LU4</td><td>Net Present Value and Other Investment Criteria</td><td>Ch 8</td></tr>
+                        <tr><td>LU5</td><td>Making Capital Investment Decisions</td><td>Ch 8</td></tr>
+                        <tr><td>LU6</td><td>Short-term Finance and Planning</td><td>Ch 10</td></tr>
+                        <tr><td>LU7</td><td>Current Asset Management (Working Capital)</td><td>Ch 10</td></tr>
+                        <tr><td>LU8</td><td>Cost of Capital</td><td>Ch 7</td></tr>
+                        <tr><td>LU9</td><td>Leasing</td><td>Additional material</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-bullseye"></i> Success Tips for FIM:</strong>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li>Master your Sharp EL738 calculator — practice time value of money calculations daily</li>
+                    <li>3 Quizzes + 3 Tests = multiple opportunities to build your semester mark</li>
+                    <li>80% attendance required for exam entry</li>
+                    <li>Sick test requires a valid medical certificate within 7 days</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══ GEM ══ -->
+        <section id="gem" class="section">
+            <h2 class="section-title">General Management</h2>
+            <p class="section-subtitle">GEM7XA1 · 12 Credits · NQF Level 7 · Semester 1</p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Mr NJ Muofhe</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> jmuofhe@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 1203</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> A Green 2, APB</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> By appointment</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Module Overview</div>
+                <div class="card-content">
+                    <p><strong>Purpose:</strong> Equip students with skills to apply the four tasks of management – planning, organising, leading and control – to manage their units in the internal and external environment.</p>
+                    <p><strong>Venue &amp; Time:</strong> Tuesday | GH 103 | 18:00 – 19:35 (Timetable codes TU 14, TU 15)</p>
+                    <p><strong>Textbook:</strong> Daft, R.L., Benson, A. &amp; Henry, B. (2025). <em>Management</em>, 3rd ed. Cengage Learning EMEA, UK.</p>
+                    <p><strong>Article:</strong> Furstenthal, L., Morris, A. &amp; Roth, E. (June 2022). <em>Fear Factor: Overcoming Human Barriers to Innovation.</em></p>
+                    <p><strong>Pass Requirements:</strong> 40% semester mark for exam entry | 40% sub-minimum in exam | 50% final mark to pass | 75%+ for distinction</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Assessment Structure</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Assessment</th><th>Weight</th><th>Date</th><th>Scope &amp; Venue</th></tr>
+                        <tr><td>Class Assessments</td><td>10%</td><td>13 March 2026</td><td>Ch 1, 3 | B Red 20</td></tr>
+                        <tr><td>Summative Assessment 1</td><td rowspan="2" style="vertical-align:middle; font-weight:700;">40% combined</td><td>24 March 2026 @ 17:30–19:00</td><td>Ch 1, 3, 4, 6 + Article | B Red 20</td></tr>
+                        <tr><td>Summative Assessment 2</td><td>29 April 2026 @ 17:30–19:00</td><td>Ch 7, 9, 11, 12 | B Red 20</td></tr>
+                        <tr><td>Special Assessment (Test 1 or 2)</td><td>N/A</td><td>12 May 2026 @ 15:30–17:00</td><td>Replaces one missed test | F Green 4</td></tr>
+                        <tr><td>Final Examination</td><td>50%</td><td>TBA (exam timetable)</td><td>Ch 1, 3, 6, 7, 9, 11, 12, 13, 15, 16 + Article</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-days"></i> Semester Schedule</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Week</th><th>Dates</th><th>Topic</th><th>Ch</th></tr>
+                        <tr><td>1–2</td><td>9–20 Feb</td><td>Introduction to Management + Article (Fear Factor)</td><td>1</td></tr>
+                        <tr><td>3</td><td>23–27 Feb</td><td>The Organisation and Corporate Culture</td><td>3</td></tr>
+                        <tr><td>3–4</td><td>2–13 Mar</td><td>Managing Ethics and Social Corporate Governance</td><td>6</td></tr>
+                        <tr><td>5</td><td>16–20 Mar</td><td>Managerial Planning &amp; Goal Setting</td><td>7</td></tr>
+                        <tr><td>6</td><td>24 Mar</td><td><strong>TEST 1 @ 17:30 – 19:30</strong></td><td>1,3,6+Art.</td></tr>
+                        <tr><td colspan="4" style="text-align:center; font-style:italic; background:#f5f5f5;">Mid-Semester Recess: 28 March – 5 April 2026</td></tr>
+                        <tr><td>8</td><td>7–10 Apr</td><td>Managerial Decision-Making</td><td>9</td></tr>
+                        <tr><td>9–10</td><td>13–24 Apr</td><td>Managing Diversity and Inclusion</td><td>12</td></tr>
+                        <tr><td>11</td><td>29 Apr</td><td><strong>TEST 2 @ 17:30 – 19:30</strong></td><td>7,9,11,12</td></tr>
+                        <tr><td>12</td><td>4–8 May</td><td>Leadership</td><td>13</td></tr>
+                        <tr><td>13</td><td>12 May</td><td>Special Assessment (15:30) + Managing Communication (17:30)</td><td>15</td></tr>
+                        <tr><td>14</td><td>18–22 May</td><td>Leading Teams</td><td>16</td></tr>
+                    </table>
+                    <p style="font-size:0.88rem; color:var(--text-secondary);">Exam scope: Ch 1, 3, 6, 7, 9, 11, 12, 13, 15, 16 + Article | Winter recess: 20 June – 5 July 2026</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Learning Units</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Unit</th><th>Topic</th><th>Chapter</th></tr>
+                        <tr><td>LU 1</td><td>An Introduction to Management</td><td>Ch 1</td></tr>
+                        <tr><td>LU 2</td><td>The Organisation and Corporate Culture</td><td>Ch 3</td></tr>
+                        <tr><td>LU 3</td><td>Managing Ethics and Social Corporate Governance</td><td>Ch 6</td></tr>
+                        <tr><td>LU 4</td><td>Managerial Planning &amp; Goal Setting</td><td>Ch 7</td></tr>
+                        <tr><td>LU 5</td><td>Managerial Decision-Making</td><td>Ch 9</td></tr>
+                        <tr><td>LU 6</td><td>Managing Change and Innovation</td><td>Ch 11</td></tr>
+                        <tr><td>LU 7</td><td>Managing Diversity and Inclusion</td><td>Ch 12</td></tr>
+                        <tr><td>LU 8</td><td>Leadership</td><td>Ch 13</td></tr>
+                        <tr><td>LU 9</td><td>Managing Communication</td><td>Ch 15</td></tr>
+                        <tr><td>LU 10</td><td>Leading Teams</td><td>Ch 16</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-bullseye"></i> Success Tips for GEM:</strong>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li>Read the Fear Factor article carefully — it appears in Test 1 AND the final exam</li>
+                    <li>Tests 1 &amp; 2 make up your full 40% semester mark — start preparing early</li>
+                    <li>A minimum 40% semester mark is required just to write the final exam</li>
+                    <li>The Special Assessment replaces only ONE missed test — not both</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══ HRE ══ -->
+        <section id="hre" class="section">
+            <h2 class="section-title">Human Resource Management</h2>
+            <p class="section-subtitle">HRE7XA1 · 12 Credits · NQF Level 7 · Semester 1</p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Dr Kgomotso Mopalami</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> kgomotsom@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> APB Campus</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> By appointment &amp; 30 min before/after lecture</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Module Overview</div>
+                <div class="card-content">
+                    <p><strong>Purpose:</strong> Develop strategic understanding of HRM practices and their impact on organisational and employee performance. Learn to provide suggestions, recommendations and managerial implications on HR matters.</p>
+                    <p><strong>Textbook:</strong> Gie, L. (Ed.) (2025). <em>Human Resource Management in Southern Africa: Contemporary Theories and Professional Practice Standards</em>, 2nd ed. JUTA. ISBN: 9781485160120</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Assessment Structure</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Component</th><th>Weight</th><th>Date</th><th>Details</th></tr>
+                        <tr><td>Test 1</td><td>50%</td><td>12 March 2026</td><td>Semester Test</td></tr>
+                        <tr><td>Assignment</td><td>45%</td><td>7 May 2026</td><td>On-campus submission</td></tr>
+                        <tr><td>Class Activities</td><td>5%</td><td>Throughout</td><td>3 random unannounced days</td></tr>
+                        <tr><td>Sick Test</td><td>N/A</td><td>14 May 2026</td><td>Valid medical certificate required</td></tr>
+                    </table>
+                    <p style="font-size:0.88rem;"><strong>Class Activities:</strong> Present all 3 days = 5% | 2 of 3 = 3% | 1 of 3 = 1% | 0 = 0%</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Learning Units</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Unit</th><th>Topic</th><th>Chapters</th></tr>
+                        <tr><td>LU1</td><td>Role &amp; Function of HRM</td><td>1–2 (pp. 3–93)</td></tr>
+                        <tr><td>LU2</td><td>Interdependence Between Employment Relations &amp; HRM</td><td>12 (pp. 540–606)</td></tr>
+                        <tr><td>LU3</td><td>Talent Planning &amp; Recruitment</td><td>5 &amp; 7 (pp. 171–294)</td></tr>
+                        <tr><td>LU4</td><td>Selection</td><td>7 (pp. 243–294)</td></tr>
+                        <tr><td>LU5</td><td>Motivation</td><td>8 (pp. 295–357)</td></tr>
+                        <tr><td>LU6</td><td>Performance Management</td><td>9 (pp. 358–415)</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-days"></i> Weekly Schedule</div>
+                <div class="card-content">
+                    <div class="timeline">
+                        <div class="timeline-item"><div class="timeline-title">Weeks 1–2 (12 &amp; 19 Feb)</div><div class="timeline-content">LU1: Role &amp; Function of HRM</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 3–4 (26 Feb &amp; 5 Mar)</div><div class="timeline-content">LU2: Interdependence Between Employment Relations &amp; HRM</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 5–6 (12 &amp; 19 Mar)</div><div class="timeline-content">LU3: Talent Planning &amp; Recruitment</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 7–8 (26 Mar &amp; 9 Apr)</div><div class="timeline-content">LU4: Selection</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 9–10 (16 &amp; 23 Apr)</div><div class="timeline-content">LU5: Motivation</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Weeks 11–12 (30 Apr &amp; 7 May)</div><div class="timeline-content">LU6: Performance Management</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-bullseye"></i> Success Tips for HRE:</strong>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li>Attend EVERY class — 5% depends on random unannounced attendance checks!</li>
+                    <li>Test 1 is 50% of your semester mark — prepare thoroughly</li>
+                    <li>Assignment is 45% — start early, submit on time</li>
+                    <li>Relate theory to real SA business examples in your answers</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══ RMD ══ -->
+        <section id="rmd" class="section">
+            <h2 class="section-title">Research Methodology</h2>
+            <p class="section-subtitle">RMD01A1 · 12 Credits · NQF Level 7 · Semester 1</p>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Prof Cashandra Mara (Coordinator)</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> cmara@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 4432</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> D Ring 519, APK</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> By appointment</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Mr Semanga Mabuza</div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> semangam@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 1204</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> A Green 16, APB</div>
+                    <div class="contact-detail"><i class="fa-solid fa-clock"></i> By appointment</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> Module Overview</div>
+                <div class="card-content">
+                    <p><strong>Purpose:</strong> Introduce students to the content and logic of a research proposal addressing practical management problems, and enable them to develop a proposal for their own research projects.</p>
+                    <p><strong>Venue &amp; Time:</strong> Tuesday | BLOCK B RED 20 | 19:40 – 21:15 (Codes 16 &amp; 17) · Hybrid F2F/Online</p>
+                    <p><strong>Textbook:</strong> Saunders, M.N.K., Lewis, P. &amp; Thornhill, A. — <em>Research Methods for Business Students</em> (online only via Pearson Revel)</p>
+                    <p style="color:var(--warning);"><strong><i class="fa-solid fa-triangle-exclamation"></i> CE Module — No Examination.</strong> Your semester mark IS your final mark. No late submissions. No supplementary assessments.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> Assessment Structure</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Assessment</th><th>Weight</th><th>Due Date</th><th>Format</th></tr>
+                        <tr><td>Group Work (weekly presentations)</td><td>5%</td><td>Throughout</td><td>20-min group talk (no PowerPoint)</td></tr>
+                        <tr><td>Reading Tasks / Quiz (weekly)</td><td>10%</td><td>Weekly</td><td>Online via Revel</td></tr>
+                        <tr><td>Assessment 1 – Video Defense</td><td>10%</td><td>5 March 2026</td><td>7-min video: research topic, methodology &amp; literature</td></tr>
+                        <tr><td>Assessment 2 – Video Defense</td><td>15%</td><td>23 April 2026</td><td>7-min video: sampling, data collection &amp; ethics</td></tr>
+                        <tr><td>Assessment 3 – Video Defense</td><td>20%</td><td>7 May 2026</td><td>5-min video: risk-based (not all students required)</td></tr>
+                        <tr><td>Assessment 4 – Final Proposal Defense</td><td>40%</td><td>21 May 2026</td><td>5–7 min video: full proposal (compulsory for all)</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-days"></i> Semester Schedule</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Week</th><th>Date</th><th>Topic</th><th>Mode</th></tr>
+                        <tr><td>1</td><td>10 Feb</td><td>Ch 1: Introduction to Research; search engines; Revel orientation</td><td>F2F</td></tr>
+                        <tr><td>2</td><td>17 Feb</td><td>Ch 1 &amp; 2: Nature of Research; Generating Research Ideas</td><td>F2F</td></tr>
+                        <tr><td>3</td><td>24 Feb</td><td>Ch 3: Critically Review the Literature</td><td>Online</td></tr>
+                        <tr><td>4</td><td>3 Mar</td><td>Ch 4: Research Philosophy &amp; Approaches | <strong>Assessment 1 due 5 Mar</strong></td><td>Online</td></tr>
+                        <tr><td>5</td><td>10 Mar</td><td>Ch 5 &amp; 6: Research Design; Access &amp; Ethics</td><td>F2F</td></tr>
+                        <tr><td>6</td><td>17 Mar</td><td>Ch 7: Selecting Samples</td><td>Online</td></tr>
+                        <tr><td>7</td><td>24 Mar</td><td>Ch 8 &amp; 9: Secondary Data; Primary Data (Observation)</td><td>F2F</td></tr>
+                        <tr><td colspan="4" style="text-align:center; font-style:italic; background:#f5f5f5;">Mid-Semester Break: 28 March – 5 April 2026</td></tr>
+                        <tr><td>8</td><td>7 Apr</td><td>Ch 10: Collecting Primary Data through Interviews</td><td>Online</td></tr>
+                        <tr><td>9</td><td>14 Apr</td><td>Ch 11: Questionnaires | <strong>Assessment 2 due 23 Apr</strong></td><td>F2F</td></tr>
+                        <tr><td>10</td><td>21 Apr</td><td>Ch 12: Analysing Data Quantitatively</td><td>Online</td></tr>
+                        <tr><td>11</td><td>28 Apr</td><td>Ch 13: Analysing Data Qualitatively | <strong>Assessment 3 due 7 May</strong></td><td>F2F</td></tr>
+                        <tr><td>12</td><td>5 May</td><td>Ch 14: Writing &amp; Presenting the Report (Part 1)</td><td>Online</td></tr>
+                        <tr><td>13</td><td>12 May</td><td>Ch 14: Writing &amp; Presenting the Report (Part 2)</td><td>F2F</td></tr>
+                        <tr><td>14</td><td>19 May</td><td>Revision &amp; Assessments | <strong>Assessment 4 due 21 May</strong></td><td>Online</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-video"></i> Video Defense Guidelines</div>
+                <div class="card-content">
+                    <p><strong>Assessment 1</strong> (7 min): Research topic &amp; problem → Methodology understanding → Critical literature review approach → Reflection. Pass = 4/5 criteria met.</p>
+                    <p><strong>Assessment 2</strong> (7 min): Sampling framework → Data collection method → Ethics &amp; access → Critical evaluation of article. Pass = 4/6 criteria. Students who failed A1 video cannot resubmit.</p>
+                    <p><strong>Assessment 3</strong> (5 min): Risk-based — only required if you score &gt;75%, are flagged for possible AI use, or are randomly selected (~20%). Notified within 48 hours of submission. 5 working days to submit.</p>
+                    <p><strong>Assessment 4</strong> (5–7 min): COMPULSORY for all. Present your complete research proposal: research question, methodology, literature, analysis plan, and reflection on your growth as a researcher.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-bullseye"></i> Success Tips for RMD:</strong>
+                <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                    <li>No late submissions accepted — plan your video recordings well ahead</li>
+                    <li>All rubrics penalise reading from notes — practice speaking without them</li>
+                    <li>Weekly reading tasks = 10% — stay on top of Revel every week</li>
+                    <li>Assessment 4 is worth 40% — treat it like a final exam</li>
+                    <li>Admin queries: Ms M Molaba | mmamokintlanam@uj.ac.za | 011 559 1208</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══ CONTACTS ══ -->
+        <section id="contacts" class="section">
+            <h2 class="section-title">Contacts &amp; Support</h2>
+            <p class="section-subtitle">Your support network at UJ</p>
+
+            <h3 style="font-family:'Crimson Pro',serif; font-size:1.5rem; color:var(--primary); margin: 1.5rem 0 0.75rem;"><i class="fa-solid fa-phone"></i> Module Lecturers</h3>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">Corporate Entrepreneurship</div>
+                    <div class="contact-detail"><strong>Dr LJ Janse van Rensburg</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> ljjansevanrensburg@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 4341</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> D Ring 515, APK</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Financial Management</div>
+                    <div class="contact-detail"><strong>Mr KM Morake</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> kmorake@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 5123</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> GNA 262, SWC</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">General Management</div>
+                    <div class="contact-detail"><strong>Mr NJ Muofhe</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> jmuofhe@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i> 011 559 1203</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> A Green 2, APB</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Human Resource Management</div>
+                    <div class="contact-detail"><strong>Dr Kgomotso Mopalami</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> kgomotsom@uj.ac.za</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> APB Campus</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Research Methodology</div>
+                    <div class="contact-detail"><strong>Prof Cashandra Mara</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> cmara@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 4432</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> D Ring 519, APK</div>
+                    <div class="contact-detail" style="margin-top:0.5rem;"><strong>Mr Semanga Mabuza</strong></div>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i> semangam@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 1204</div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i> A Green 16, APB</div>
+                </div>
+            </div>
+
+            <h3 style="font-family:'Crimson Pro',serif; font-size:1.5rem; color:var(--primary); margin: 1.75rem 0 0.75rem;"><i class="fa-solid fa-landmark"></i> Department Contacts</h3>
+            <div class="card">
+                <div class="card-title">Business Management Department</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Role</th><th>Name</th><th>Contact</th></tr>
+                        <tr><td>Head of Department (APK)</td><td>Prof H. Boikanyo</td><td><i class="fa-solid fa-envelope"></i> hermanb@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 3172 · <i class="fa-solid fa-location-dot"></i> D Ring 521</td></tr>
+                        <tr><td>UG Coordinator: Diplomas</td><td>Dr A Sibiya</td><td><i class="fa-solid fa-envelope"></i> ayandas@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 1267 · <i class="fa-solid fa-location-dot"></i> ADD 319</td></tr>
+                        <tr><td>Departmental Coordinator (APB)</td><td>Dr S Ngcobo</td><td><i class="fa-solid fa-envelope"></i> lsngcobo@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 1785 · <i class="fa-solid fa-location-dot"></i> ADD 319</td></tr>
+                        <tr><td>Admin Assistant (APB/DFC)</td><td>Ms M Molaba</td><td><i class="fa-solid fa-envelope"></i> mmamokintlanam@uj.ac.za · <i class="fa-solid fa-phone"></i> 011 559 1208 · <i class="fa-solid fa-location-dot"></i> A Green 16</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <h3 style="font-family:'Crimson Pro',serif; font-size:1.5rem; color:var(--primary); margin: 1.75rem 0 0.75rem;"><i class="fa-solid fa-book-open"></i> Academic Support</h3>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-name">UJ Library</div>
+                    <div class="contact-detail"><i class="fa-solid fa-globe"></i> www.uj.ac.za/library</div>
+                    <div class="contact-detail"><i class="fa-solid fa-book-open"></i> Academic databases</div>
+                    <div class="contact-detail"><i class="fa-solid fa-laptop"></i> Past exam papers</div>
+                    <div class="contact-detail"><i class="fa-solid fa-pen-nib"></i> Writing support</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Student Writing Center</div>
+                    <div class="contact-detail"><i class="fa-solid fa-file-pen"></i> Assignment support</div>
+                    <div class="contact-detail"><i class="fa-solid fa-circle-check"></i> Proofreading assistance</div>
+                    <div class="contact-detail"><i class="fa-solid fa-book-open"></i> Referencing help</div>
+                    <div class="contact-detail"><i class="fa-solid fa-graduation-cap"></i> Academic skills</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Career Services</div>
+                    <div class="contact-detail"><i class="fa-solid fa-file-lines"></i> CV preparation</div>
+                    <div class="contact-detail"><i class="fa-solid fa-microphone"></i> Interview prep</div>
+                    <div class="contact-detail"><i class="fa-solid fa-briefcase"></i> Career guidance</div>
+                    <div class="contact-detail"><i class="fa-solid fa-handshake"></i> Networking events</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Student Wellness</div>
+                    <div class="contact-detail"><i class="fa-solid fa-brain"></i> Counseling services</div>
+                    <div class="contact-detail"><i class="fa-solid fa-dumbbell"></i> Stress management</div>
+                    <div class="contact-detail"><i class="fa-solid fa-heart"></i> Mental health support</div>
+                    <div class="contact-detail"><i class="fa-solid fa-hospital"></i> Health services</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-envelope"></i> Email Etiquette:</strong> When emailing lecturers always include your student number, the module code in the subject line (e.g. "RMD01A1: Query about Assessment 1"), a clear description of your query, and what you've already tried. Response times: 24 hours Mon–Thu | 72 hours Fri–Mon.
+            </div>
+        </section>
+
+        <!-- ══ STRATEGY ══ -->
+        <section id="strategy" class="section">
+            <h2 class="section-title">Your Success Strategies</h2>
+            <p class="section-subtitle">Proven approaches for excellence in your Advanced Diploma</p>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-bullseye"></i> The 3-Pass Learning System</div>
+                <div class="card-content">
+                    <p><strong>Pass 1 – Pre-Class (30 min):</strong> Skim read to get the landscape. Note confusing parts to clarify in class.</p>
+                    <p><strong>Pass 2 – In Class:</strong> Active engagement. Ask questions. Take strategic notes on key insights.</p>
+                    <p><strong>Pass 3 – Post-Class (60 min):</strong> Deep review. Summarise in your own words. Create frameworks. Test understanding.</p>
+                    <p style="color:var(--primary);"><strong>Why it works:</strong> Spaced repetition with increasing depth is scientifically proven to enhance long-term retention.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calendar-days"></i> Weekly Study Schedule</div>
+                <div class="card-content">
+                    <table>
+                        <tr><th>Day</th><th>Activity</th><th>Time</th></tr>
+                        <tr><td>Monday</td><td>Pre-read for upcoming classes</td><td>2 hours</td></tr>
+                        <tr><td>Tuesday</td><td>Review Monday's lectures + assignments</td><td>2 hours</td></tr>
+                        <tr><td>Wednesday</td><td>Deep work on assignments/projects</td><td>3 hours</td></tr>
+                        <tr><td>Thursday</td><td>Practice problems + self-testing</td><td>2 hours</td></tr>
+                        <tr><td>Friday</td><td>Review week's work + catch up</td><td>2 hours</td></tr>
+                        <tr><td>Saturday</td><td>Major study session or assignment work</td><td>4 hours</td></tr>
+                        <tr><td>Sunday</td><td>Weekly review + prep for Monday</td><td>2 hours</td></tr>
+                    </table>
+                    <p style="font-size:0.88rem;"><strong>Total:</strong> 17 hours/week study + class time = 25–30 hours total weekly commitment</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-file-pen"></i> Assignment Excellence Formula</div>
+                <div class="card-content">
+                    <div class="timeline">
+                        <div class="timeline-item"><div class="timeline-title">Week 1: Decode the Brief</div><div class="timeline-content">Highlight instruction verbs | Identify rubric criteria | Create outline based on marks | Schedule milestones</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Week 2: Research</div><div class="timeline-content">10–15 academic sources | SA business examples | Library databases | Current business news</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Week 3: First Draft</div><div class="timeline-content">Write complete draft | Focus on content over perfection | Link theory to practice | Include all sections</div></div>
+                        <div class="timeline-item"><div class="timeline-title">Week 4: Refine &amp; Submit</div><div class="timeline-content">Proofread 3× | Check references | Professional formatting | Submit 24 hours early</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-bolt"></i> The Power Hour Technique</div>
+                <div class="card-content">
+                    <p>Every day, identify your most important academic task and dedicate ONE distraction-free hour to it: <i class="fa-solid fa-mobile-screen-button"></i> Phone off | <i class="fa-solid fa-envelope"></i> Email closed | <i class="fa-solid fa-ban"></i> Social media blocked | <i class="fa-solid fa-bullseye"></i> Deep focus on ONE thing.</p>
+                    <p style="color:var(--primary); margin-top:0.75rem;"><strong>The Compound Effect:</strong> 365 hours of deep, focused work per year = your competitive advantage.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong><i class="fa-solid fa-star"></i> Remember:</strong> You don't need to be perfect. You need to be consistent. 1% improvement every day = 37× better in a year. Focus on systems, not goals. Trust the process.
+            </div>
+        </section>
+
+        <!-- ══ SEMESTER 2 PLACEHOLDER ══ -->
+        <section id="s2-overview" class="section">
+            <div class="s2-placeholder">
+                <div class="placeholder-icon"><i class="fa-solid fa-box-open"></i></div>
+                <h2>Semester 2 — Coming Soon</h2>
+                <p>Semester 2 modules and content will be added here once your learning guides are available. All module pages, schedules, and assessment calendars will follow the same structure as Semester 1.</p>
+            </div>
+        </section>
+
+    </div><!-- /main-content -->
+
+    <footer class="footer">
+        <p><strong>University of Johannesburg · Advanced Diploma in Business Management · 2026</strong></p>
+        <p style="margin-top:0.4rem; color:var(--accent-dark); font-weight:600;">Your advantage is starting with intention. Most students react. You're planning to excel from Day 1. <i class="fa-solid fa-rocket"></i></p>
+    </footer>
+
+</div><!-- /page-wrapper -->
+
+<script>
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('.nav-item[data-section]').forEach(n => {
+            if (n.dataset.section === id) n.classList.add('active');
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        closeSidebar(); // auto-close on mobile after navigation
+    }
+
+    function switchSemester(n) {
+        if (n === 2) return; // disabled for now
+        document.getElementById('tab-s1').classList.toggle('active', n === 1);
+        document.getElementById('tab-s2').classList.toggle('active', n === 2);
+        document.getElementById('nav-s1').style.display = n === 1 ? 'block' : 'none';
+        document.getElementById('nav-s2').style.display = n === 2 ? 'block' : 'none';
+        showSection(n === 1 ? 'overview' : 's2-overview');
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const icon    = document.getElementById('burgerIcon');
+        const isOpen  = sidebar.classList.toggle('open');
+        overlay.classList.toggle('visible', isOpen);
+        icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('visible');
+        document.getElementById('burgerIcon').className = 'fa-solid fa-bars';
+    }
+
+    // Close sidebar with Escape key
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+</script>
+</body>
+</html>
